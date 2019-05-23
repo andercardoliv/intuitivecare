@@ -1,0 +1,121 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>br.com.intuitivecare</groupId>
+  <artifactId>desafio</artifactId>
+  <version>1.0</version>
+  <name>intuitivecare-desafio</name>
+  <description>desafio do processo de seleção para empresa intuitivecare</description>
+  
+  <!-- Inherit defaults from Spring Boot -->
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>1.5.2.RELEASE</version>
+	</parent>
+
+	<!-- Add typical dependencies for a web application -->
+	<dependencies>
+		<!-- Spring Boot dependencies -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+			<exclusions>
+		        <exclusion>
+		            <groupId>org.springframework.boot</groupId>
+		            <artifactId>spring-boot-starter-logging</artifactId>
+		        </exclusion>
+		    </exclusions>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-validation</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-jpa</artifactId>
+		</dependency>
+		
+		<dependency>
+		    <groupId>org.springframework.boot</groupId>
+		    <artifactId>spring-boot-starter-log4j2</artifactId>
+		</dependency>
+
+		<!-- Database dependencies -->
+		<dependency>
+		    <groupId>mysql</groupId>
+		    <artifactId>mysql-connector-java</artifactId>
+		    <version>8.0.16</version>
+		</dependency>
+		
+		<dependency>
+		    <groupId>org.apache.myfaces.core</groupId>
+		    <artifactId>myfaces-impl</artifactId>
+		    <version>2.2.12</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.apache.myfaces.core</groupId>
+		    <artifactId>myfaces-api</artifactId>
+		    <version>2.2.12</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.apache.tomcat.embed</groupId>
+		    <artifactId>tomcat-embed-jasper</artifactId>
+		</dependency>
+		<dependency>
+		    <groupId>org.ocpsoft.rewrite</groupId>
+		    <artifactId>rewrite-servlet</artifactId>
+		    <version>3.4.1.Final</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.ocpsoft.rewrite</groupId>
+		    <artifactId>rewrite-integration-faces</artifactId>
+		    <version>3.4.1.Final</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.ocpsoft.rewrite</groupId>
+		    <artifactId>rewrite-config-prettyfaces</artifactId>
+		    <version>3.4.1.Final</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.primefaces</groupId>
+		    <artifactId>primefaces</artifactId>
+		    <version>6.1</version>
+		</dependency>
+		
+		<dependency>
+		    <groupId>org.projectlombok</groupId>
+		    <artifactId>lombok</artifactId>
+		    <version>1.16.16</version>
+		</dependency>
+		
+		<dependency>
+		    <groupId>org.apache.pdfbox</groupId>
+		    <artifactId>pdfbox</artifactId>
+		    <version>2.0.15</version>
+		</dependency>
+		
+		<dependency>
+		    <groupId>org.apache.commons</groupId>
+		    <artifactId>commons-lang3</artifactId>
+		    <version>3.9</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>com.opencsv</groupId>
+			<artifactId>opencsv</artifactId>
+			<version>3.8</version>
+		</dependency>
+	</dependencies>
+
+	<!-- Package as an executable jar -->
+	<build>
+		<outputDirectory>src/main/webapp/WEB-INF/classes</outputDirectory>
+		
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</build>
+</project>
