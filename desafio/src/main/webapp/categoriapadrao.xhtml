@@ -6,10 +6,13 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:p="http://primefaces.org/ui">
 <ui:composition template="layout.xhtml">
     <ui:define name="content">
+    	<h2>TISS - Importação do CSV de Categorias Padrão</h2>
     	<h:form>
-    		<h:outputLabel for="diretorioCSV" value="Diretório do zip (caso não seja informado, o zip será pego do resource)"/>
-    		<h:inputText id="diretorioCSV" value="#{categoriaPadraoController.diretorioCSV}"/>
-    		<h:commandButton value="gerarCSV" action="#{categoriaPadraoController.importaCSV}"></h:commandButton>
+    		<h:panelGrid columns="3">
+	    		<h:outputLabel for="diretorioCSV" value="Diretório do zip (caso não seja informado, o zip será pego do resource)"/>
+	    		<h:inputText id="diretorioCSV" value="#{categoriaPadraoController.diretorioCSV}"/>
+	    		<h:commandButton value="Importar csv" action="#{categoriaPadraoController.importaCSV}"></h:commandButton>
+    		</h:panelGrid>
     	</h:form>
     </ui:define>
 </ui:composition>

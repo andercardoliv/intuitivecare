@@ -14,6 +14,7 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
@@ -33,8 +34,6 @@ public class CSVUtil {
 
 	@Autowired
 	private Environment env;
-	
-	private Logger log;
 	
 	public void descompactaArquivo(String caminhoArquivo) throws DescompactaArquivoException {
 		try (ZipInputStream zipIS = new ZipInputStream(
@@ -89,7 +88,7 @@ public class CSVUtil {
 		if (caminhoArquivo != null && !caminhoArquivo.isEmpty()) 
 			path = Paths.get(caminhoArquivo);
 		else 
-			path = Paths.get(ResourceUtils.getFile("classpath:" +  env.getProperty("zip.filename")).getPath());
+			path = Paths.get(ResourceUtils.getFile("classpath:" +  new String(env.getProperty("zip.filename").getBytes(),"UTF-8")).getPath());
 			
 		return path;
 	}
@@ -103,4 +102,6 @@ public class CSVUtil {
             }
         }
 	}
+	
+	private static final Logger log = LoggerFactory.getLogger(CSVUtil.class);
 }

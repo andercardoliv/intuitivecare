@@ -5,6 +5,7 @@ import java.util.List;
 import org.ocpsoft.rewrite.annotation.Join;
 import org.ocpsoft.rewrite.el.ELBeanName;
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -29,10 +30,9 @@ public class CategoriaPadraoController {
 	
 	private String diretorioCSV;
 	
-	private Logger log;
-	
 	public String importaCSV() {
-		String urlRetorno = "/categoriapadrao-lista.jsf?redirect=true";
+		
+		String urlRetorno = "/categoriapadrao-lista.jsf?faces-redirect=true";
 		
 		try {
 			csvUtil.descompactaArquivo(diretorioCSV);
@@ -47,9 +47,8 @@ public class CategoriaPadraoController {
 			});
 			
 			csvUtil.deletaArquivo();
-			
+
 		} catch(Exception e) {
-			urlRetorno = "/erro.jsf";
 			log.error(e.getMessage(), e);
 		}
 		
@@ -67,4 +66,6 @@ public class CategoriaPadraoController {
 	public void setDiretorioCSV(String diretorioCSV) {
 		this.diretorioCSV = diretorioCSV;
 	}
+	
+	private static final Logger log = LoggerFactory.getLogger(CategoriaPadraoController.class);
 }
