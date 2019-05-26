@@ -49,6 +49,7 @@ public class CategoriaPadraoController {
 			csvUtil.deletaArquivo();
 
 		} catch(Exception e) {
+			urlRetorno = "/error.jspf?faces-redirect=true";
 			log.error(e.getMessage(), e);
 		}
 		

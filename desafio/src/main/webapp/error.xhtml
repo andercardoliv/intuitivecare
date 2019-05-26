@@ -1,14 +1,13 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://java.sun.com/jsf/html">
+      xmlns:h="http://java.sun.com/jsf/html"
+ 	  xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
 <ui:composition template="layout.xhtml">
     <ui:define name="content">
 	    <h2>Erro</h2>
-	    <br/><br/>
-	    <div">
-	        Ocorreu um erro ao processar sua requisição: <br/>
-	        #{flash.keep.errorDetails}
+	    <div>
+	        Ocorreu um erro ao processar sua requisição. <br/>
 	    </div>
 	</ui:define>
 </ui:composition>

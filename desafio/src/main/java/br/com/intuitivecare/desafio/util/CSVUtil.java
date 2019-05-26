@@ -57,11 +57,16 @@ public class CSVUtil {
 	public List<CategoriaPadrao> getCategoriasFromCSV() throws LeituraCSVException {
 		
 		List<CategoriaPadrao> categorias = null;
+//		try (CSVReader reader = new CSVReader(new InputStreamReader(
+//				new FileInputStream(env.getProperty("csv.filename"))))) {
 		try (CSVReader reader = new CSVReader(new InputStreamReader(
-				new FileInputStream(env.getProperty("csv.filename"))))) {
+				new FileInputStream("teste.csv")))) {
 			
 			List<String[]> linhas = reader.readAll();
 			
+			//TODO: Melhorar.
+			//removendo cabecalho 
+			linhas.remove(0);
 			categorias = linhas.stream()
 					.map(linha -> new CategoriaPadrao(Integer.valueOf(linha[0]), linha[1]))
 					.collect(Collectors.toList());
@@ -88,7 +93,7 @@ public class CSVUtil {
 		if (caminhoArquivo != null && !caminhoArquivo.isEmpty()) 
 			path = Paths.get(caminhoArquivo);
 		else 
-			path = Paths.get(ResourceUtils.getFile("classpath:" +  new String(env.getProperty("zip.filename").getBytes(),"UTF-8")).getPath());
+			path = Paths.get(ResourceUtils.getFile("classpath:" +  env.getProperty("zip.filename").getBytes()).getPath());
 			
 		return path;
 	}
