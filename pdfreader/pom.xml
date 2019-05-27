@@ -123,7 +123,12 @@
 		    <artifactId>commons-text</artifactId>
 		    <version>1.6</version>
 		</dependency>
-
+		
+		<dependency>
+		    <groupId>net.sourceforge.htmlunit</groupId>
+		    <artifactId>htmlunit</artifactId>
+		    <version>2.35.0</version>
+		</dependency>
 	</dependencies>
 
 	<!-- Package as an executable jar -->

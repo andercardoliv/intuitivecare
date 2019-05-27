@@ -9,9 +9,9 @@
     	<h2>TISS - Importação do CSV de Categorias Padrão</h2>
     	<h:form>
     		<h:panelGrid columns="3">
-	    		<h:outputLabel for="diretorioCSV" value="Diretório do zip (caso não seja informado, o zip será pego do resource)"/>
-	    		<h:inputText id="diretorioCSV" value="#{categoriaPadraoController.diretorioCSV}"/>
-	    		<h:commandButton value="Importar csv" action="#{categoriaPadraoController.importaCSV}"></h:commandButton>
+	    		<h:outputLabel for="diretorioZip" value="Diretório do zip (caso não seja informado, o zip será pego do resource)"/>
+	    		<h:inputText id="diretorioZip" value="#{categoriaPadraoController.diretorioZip}"/>
+	    		<h:commandButton value="Importar csv" action="#{categoriaPadraoController.processaCategoriaPadrao}"></h:commandButton>
     		</h:panelGrid>
     	</h:form>
     </ui:define>

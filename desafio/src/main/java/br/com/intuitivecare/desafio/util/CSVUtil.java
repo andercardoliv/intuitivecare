@@ -1,111 +1,60 @@
 package br.com.intuitivecare.desafio.util;
 
-import java.io.BufferedOutputStream;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
-import java.util.stream.Collectors;
 import java.util.zip.ZipEntry;
-import java.util.zip.ZipInputStream;
+import java.util.zip.ZipOutputStream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
-import org.springframework.core.env.Environment;
-import org.springframework.util.ResourceUtils;
 
-import com.opencsv.CSVReader;
-
-import br.com.intuitivecare.desafio.exception.DeletaArquivoException;
-import br.com.intuitivecare.desafio.exception.DescompactaArquivoException;
-import br.com.intuitivecare.desafio.exception.LeituraCSVException;
+import br.com.intuitivecare.desafio.exception.ZIPCSVException;
 import br.com.intuitivecare.desafio.model.CategoriaPadrao;
 
-@Configuration
-@PropertySource("classpath:application.properties")
 public class CSVUtil {
-
-	@Autowired
-	private Environment env;
 	
-	public void descompactaArquivo(String caminhoArquivo) throws DescompactaArquivoException {
-		try (ZipInputStream zipIS = new ZipInputStream(
-				new FileInputStream(getZip(caminhoArquivo).toAbsolutePath().toString()))) {
-			
-			ZipEntry arquivoZip = zipIS.getNextEntry();
-			while (arquivoZip != null) {
-				Path caminhoDescompactacao = Paths.get("", env.getProperty("csv.filename"));
-				escreveArquivo(zipIS, caminhoDescompactacao);
-				
-				zipIS.closeEntry();
-				arquivoZip = zipIS.getNextEntry();
-			}
-			
-		} catch(IOException e) {
-			log.error(e.getMessage(), e);
-			throw new DescompactaArquivoException(e.getMessage(), e);
-		}
-	}
-	
-	public List<CategoriaPadrao> getCategoriasFromCSV() throws LeituraCSVException {
+	/**
+	 * Método que cria o CSV e zipa no diretório escolhido.
+	 * Por enquanto este método não está genérico para todas as tabelas do PDF e funciona apenas para a tabela do Quadro 31.
+	 * @param tabela String que contém a tabela que será formatada em CSV e zipada
+	 * @param diretorioZip Diretório em que o zip será criado
+	 * @param regexLinha Expressão regular que pega as linhas da tabela com a String dada.
+	 * @throws ZIPCSVException 
+	 */
+	public void criaZipCSV(List<CategoriaPadrao> categoriasPadrao, String cabecalho, String diretorioZip) throws ZIPCSVException {
 		
-		List<CategoriaPadrao> categorias = null;
-//		try (CSVReader reader = new CSVReader(new InputStreamReader(
-//				new FileInputStream(env.getProperty("csv.filename"))))) {
-		try (CSVReader reader = new CSVReader(new InputStreamReader(
-				new FileInputStream("teste.csv")))) {
-			
-			List<String[]> linhas = reader.readAll();
-			
-			//TODO: Melhorar.
-			//removendo cabecalho 
-			linhas.remove(0);
-			categorias = linhas.stream()
-					.map(linha -> new CategoriaPadrao(Integer.valueOf(linha[0]), linha[1]))
-					.collect(Collectors.toList());
-			
-		} catch(Exception e) {
-			log.error(e.getMessage(), e);
-			throw new LeituraCSVException(e.getMessage(), e);
-		}
+		//Escrevendo arquivo CSV
+		Path pathCSV = Paths.get(CSVConstants.NOME_ARQUIVO + ".csv");
 		
-		return categorias;
-	}
-	
-	public void deletaArquivo() throws DeletaArquivoException {
-		try {
-			Files.delete(Paths.get(env.getProperty("csv.filename")));
-		} catch(IOException e) {
-			log.error(e.getMessage(), e);
-			throw new DeletaArquivoException(e.getMessage(), e);
-		}
-	}
-	
-	private Path getZip(String caminhoArquivo) throws IOException {
-		Path path = null;
-		if (caminhoArquivo != null && !caminhoArquivo.isEmpty()) 
-			path = Paths.get(caminhoArquivo);
-		else 
-			path = Paths.get(ResourceUtils.getFile("classpath:" +  env.getProperty("zip.filename").getBytes()).getPath());
 			
-		return path;
-	}
-	
-	private void escreveArquivo(ZipInputStream zipIS, Path filePath) throws IOException {
-		try (BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(filePath.toAbsolutePath().toString()))) {
-            byte[] bytesIn = new byte[1024];
-            int read = 0;
-            while ((read = zipIS.read(bytesIn)) != -1) {
-                bos.write(bytesIn, 0, read);
-            }
-        }
+		//Colocando arquivo dentro do zip
+		try(ZipOutputStream zos = new ZipOutputStream(new FileOutputStream(
+				Paths.get(diretorioZip + CSVConstants.NOME_ARQUIVO + ".zip").toFile()))) {
+			
+			zos.putNextEntry(new ZipEntry(pathCSV.toFile().getName()));
+			
+			zos.write(cabecalho.getBytes());
+			categoriasPadrao.forEach(categoriaPadrao -> {
+				try {
+					zos.write("\n".getBytes());
+					zos.write(String.valueOf(categoriaPadrao.getCodigo()).getBytes()); 
+					zos.write(",".getBytes());
+					zos.write(categoriaPadrao.getDescricao().getBytes());
+				} catch(IOException e) {
+					System.out.println(e.getMessage());
+				}
+			});
+			
+			zos.finish();
+			zos.flush();
+			zos.closeEntry();
+		} catch(IOException e) { 
+			log.error(e.getMessage());
+			throw new ZIPCSVException(e.getMessage(), e); 
+		} 
 	}
 	
 	private static final Logger log = LoggerFactory.getLogger(CSVUtil.class);
