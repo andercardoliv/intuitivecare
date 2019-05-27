@@ -7,10 +7,12 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import br.com.intuitivecare.desafio.model.CategoriaPadrao;
 import br.com.intuitivecare.desafio.repository.CategoriaPadraoRepository;
 
+@Service
 public class CategoriaPadraoService {
 
 	@Autowired

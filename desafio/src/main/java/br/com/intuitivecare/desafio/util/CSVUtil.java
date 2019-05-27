@@ -10,10 +10,12 @@ import java.util.zip.ZipOutputStream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
 
 import br.com.intuitivecare.desafio.exception.ZIPCSVException;
 import br.com.intuitivecare.desafio.model.CategoriaPadrao;
 
+@Service
 public class CSVUtil {
 	
 	/**
